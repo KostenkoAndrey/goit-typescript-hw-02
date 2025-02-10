@@ -35,7 +35,6 @@ try {
       setIsError(false);
       const data =  await SearchByValue(query, page); 
       setArticles(prev => [...prev, ...data.results]);  
-      console.log(data);
     }
 catch (error: unknown) {
       setIsError(true);
