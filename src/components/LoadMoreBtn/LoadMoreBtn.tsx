@@ -1,9 +1,13 @@
+import React, { FC } from "react";
 import s from './LoadMoreBtn.module.css'
 
-const LoadMoreBtn = ({ changePage }) => {
+interface PropsType {
+changePage: ()=> void;
+} 
 
+const LoadMoreBtn: FC<PropsType> = ({ changePage }) => {
   return (
-    <button onClick={changePage} type='button' className={s.loadMoreBtn}>Load more</button>
+  <button onClick={changePage} type='button' className={s.loadMoreBtn}>Load more</button>
   )
 }
 

@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { FC } from 'react';
 import Modal from 'react-modal';
 
-Modal.setAppElement('#root');
+(Modal as any).setAppElement('#root');
 
-const ImageModal = ({ selectedImage, isOpen, onClose }) => {
-  
+
+interface ImageModalPropsType {
+  selectedImage: string;
+  isOpen: boolean;
+  onClose: () => void;
+  children?: React.ReactNode;
+}
+
+const ImageModal = ({ selectedImage, isOpen, onClose }: ImageModalPropsType) => {
   const customStyles = {
     content: {
       top: '50%',
@@ -15,19 +22,15 @@ const ImageModal = ({ selectedImage, isOpen, onClose }) => {
       transform: 'translate(-50%, -50%)',
       padding: '40px',
       width: '800px',
-      textAlign: 'center',
+      textAlign: 'center' as 'center' | 'left' | 'right',
       borderRadius: 30
     },
   };
 
   return (
-      <Modal
-        isOpen={isOpen} 
-        onRequestClose={onClose}  
-        style={customStyles}>
-          <img src={selectedImage} alt="" width={800}/>
-      </Modal>
-
+    <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
+      <img src={selectedImage} alt="Selected" width={800} />
+    </Modal>
   );
 };
 

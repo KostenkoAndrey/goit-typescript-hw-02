@@ -1,14 +1,13 @@
+import React, { FC } from "react";
 import { InfinitySpin } from "react-loader-spinner";
 import '../../App.css';
 
-const Loader = () => {
+const Loader: FC = () => {
 return (
 <div className="loader">
 <InfinitySpin
-  visible={true}
   width="200"
   color="blue"
-  ariaLabel="infinity-spin-loading"
   />
 </div>)}
 

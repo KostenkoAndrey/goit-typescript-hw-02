@@ -1,43 +1,56 @@
 import { useState, useEffect } from 'react'
-import './App.css'
+
 import SearchBar from './components/SearchBar/SearchBar';
-import ImageGallery from './components/ImageGallery/ImageGallery';
 import SearchByValue from './components/SearchBar/SearchApi';
+import ImageGallery from './components/ImageGallery/ImageGallery';
+import ImageModal from './components/ImageModal/ImageModal';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 import Loader from './components/Loader/Loader';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
-import ImageModal from './components/ImageModal/ImageModal';
+
+import './App.css'
+
+export interface Articles {
+  id: string,
+  alt_description: string,
+  urls: { 
+    small: string,
+    regular: string} 
+  }
 
 function App() {
-const [articles, setArticles] = useState([]);
-const [query, setQuery] = useState("");
-const [page, setPage] = useState(0);
-const [isLoading, setIsLoading] = useState(false);
-const [isError, setIsError] = useState(false);
-const [selectedImage, setSelectedImage] = useState(null);
-const [modalIsOpen, setIsOpen] = useState(false);
+const [articles, setArticles] = useState<Articles[]>([]);
+const [query, setQuery] = useState<string>("");
+const [page, setPage] = useState<number>(0);
+const [isLoading, setIsLoading] = useState<boolean>(false);
+const [isError, setIsError] = useState<boolean>(false);
+const [selectedImage, setSelectedImage] = useState<string>("");
+const [modalIsOpen, setIsOpen] = useState<boolean>(false);
 
 useEffect(()=>{
   ( async () => {
-
 if (!query.trim()) {return};
-
 try {
       setIsLoading(true);
       setIsError(false);
       const data =  await SearchByValue(query, page); 
-      setArticles(prev => [...prev, ...data.results]);   
+      setArticles(prev => [...prev, ...data.results]);  
+      console.log(data);
     }
-catch (error) {
+catch (error: unknown) {
       setIsError(true);
-      console.log(error.message);
+      if (error instanceof Error) {
+        console.log(error.message);
+      } else {
+        console.log("Произошла неизвестная ошибка");
+      }
     }
 finally{
       setIsLoading(false);
     }
 } )() },[query, page]);
 
-const handleChangeQuery = (newQuery) => {
+const handleChangeQuery = (newQuery: string) => {
   if(query === newQuery){return};
   setQuery(newQuery);
   setPage(1); 
@@ -48,7 +61,7 @@ const changePageOnClick = () =>{
   setPage(prev => prev + 1);
 };
 
-const modalOpen = (newImg) =>{
+const modalOpen = (newImg: string) =>{
   setSelectedImage(newImg);
   setIsOpen(true);
 };
